@@ -1,0 +1,24 @@
+{
+  "name": "@editorjs/math",
+  "version": "1.0.0",
+  "description": "Math Block for Editor.js (allow Tex syntax)",
+  "main": "'./src/index.js'",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flaming-cl/editorjs-math.git"
+  },
+  "keywords": [
+    "['editor'",
+    "'editorjs'",
+    "'tex']"
+  ],
+  "author": "flaming-cl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flaming-cl/editorjs-math/issues"
+  },
+  "homepage": "https://github.com/flaming-cl/editorjs-math#readme"
+}
