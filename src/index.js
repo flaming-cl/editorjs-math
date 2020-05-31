@@ -11,7 +11,7 @@ const scripts = [
 scripts.forEach((sUrl) => load(sUrl));
 /**
  * Math Block for the Editor.js.
- * Render Tex syntax/plain text to pretty math equations
+ * Transform Tex syntax/plain text to pretty math equations
  *
  * @author flaming-cl
  * @license The MIT License (MIT)

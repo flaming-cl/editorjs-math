@@ -1,2 +1,46 @@
-# editorjs-math
-Math Block for Editor.js (allow Tex syntax)
+![](https://badgen.net/badge/Editor.js/v2.0/blue)
+
+# Math Tool for Editor.js
+
+Transform Tex syntax/plain text to pretty math equations
+Based on mathJax and mathjs
+
+## Usage
+
+Add a new Tool to the `tools` property of the Editor.js initial config.
+
+```javascript
+var editor = EditorJS({
+  ...
+  
+  tools: {
+    ...
+    Math: {
+      class: Math,
+    },
+  }
+  
+  ...
+});
+```
+
+## Config Params
+
+This Tool has no config params
+
+## Output data
+
+| Field  | Type     | Description      |
+| ------ | -------- | ---------------- |
+| text   | `string` | Math 's text |
+
+
+```json
+Text can be plain text or Tex syntax($ can be omitted)
+{
+    "type" : "math",
+    "data" : {
+        "text" : "sqrt(9 / 3) - cos(pi / 4)^2",
+    }
+}
+```
