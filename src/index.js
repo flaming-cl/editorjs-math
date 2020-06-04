@@ -3,15 +3,12 @@
  */
 require('./index.css').toString();
 const load = require('./loadScript');
-const scripts = [
-  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js',
-  'https://unpkg.com/mathjs@7.0.0/dist/math.min.js'
-];
+load('./tex-svg.js', 'mathJS');
+load('./math.min.js', 'mathJax');
 
-scripts.forEach((sUrl) => load(sUrl));
 /**
  * Math Block for the Editor.js.
- * Transform Tex syntax/plain text to pretty math equations
+ * Render Tex syntax/plain text to pretty math equations
  *
  * @author flaming-cl
  * @license The MIT License (MIT)
@@ -97,22 +94,29 @@ class Math {
    * @public
    */
   render() {
-    if (!window.math || !window.MathJax) {
-      return console.error('not initiated mathJax');
-    }
-
     const mathNode = document.createElement('math');
+    this.getTexSyntax(mathNode);
+    this.textToSVG(mathNode);
+    return this._element;
+  }
 
+  getTexSyntax(mathNode) {
+    if (!window.math) {
+      return console.error('not initiated mathjs');
+    }
     try {
       mathNode.innerHTML = window.math.parse(this.data.text).toTex({parenthesis: 'keep'});
     } catch (e) {
       mathNode.innerHTML = this.data.text;
     }
+  }
 
-    let options = window.MathJax.getMetricsFor(mathNode, true);
+  textToSVG(mathNode) {
+    if (!window.MathJax) {
+      return console.error('not initiated mathJax');
+    }
+    const options = window.MathJax.getMetricsFor(mathNode, true);
     this._element = window.MathJax.tex2svg(mathNode.innerText, options);
-
-    return this._element;
   }
 
   /**

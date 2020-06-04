@@ -2,7 +2,7 @@
 
 # Math Tool for Editor.js
 
-Transform Tex syntax/plain text to pretty math equations
+Transform Tex syntax/plain text to pretty math equations  
 Based on mathJax and mathjs
 
 ## Usage
