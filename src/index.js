@@ -73,6 +73,18 @@ class Math {
   }
 
   /**
+   * Check if text content is empty and set empty string to inner html.
+   * We need this because some browsers (e.g. Safari) insert <br> into empty contenteditanle elements
+   *
+   * @param {KeyboardEvent} e - key up event
+   */
+  onClick(api) {
+    const blockIndex = this.api.blocks.getCurrentBlockIndex();
+    this.api.caret.setToNextBlock('start', blockIndex);
+  }
+
+
+  /**
    * Create Tool's view
    * @return {HTMLElement}
    * @private
@@ -94,9 +106,10 @@ class Math {
    * @public
    */
   render() {
-    const mathNode = document.createElement('math');
+    const mathNode = document.createElement('img');
     this.getTexSyntax(mathNode);
     this.textToSVG(mathNode);
+    this._element.onclick = () => this.onClick(this.api);
     return this._element;
   }
 
