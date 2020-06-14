@@ -2,3 +2,6 @@ node_modules/*
 npm-debug.log
 .idea/
 .DS_Store
+src/
+webpack.config.js
+yarn.lock

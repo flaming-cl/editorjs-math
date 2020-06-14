@@ -1,11 +1,11 @@
 {
-  "name": "@editorjs/math",
+  "name": "@flaming-cl/math",
   "version": "1.0.0",
   "description": "Math Block for Editor.js (allow Tex syntax)",
   "main": "'./src/index.js'",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
@@ -22,13 +22,11 @@
     "url": "https://github.com/flaming-cl/editorjs-math/issues"
   },
   "homepage": "https://github.com/flaming-cl/editorjs-math#readme",
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
-    "mathjax-full": "^3.0.5",
-    "mathjs": "^7.0.1",
     "raw-loader": "^4.0.1",
     "style-loader": "^1.2.1"
   }

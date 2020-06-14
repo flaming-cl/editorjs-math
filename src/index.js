@@ -49,7 +49,7 @@ class Math {
 
     this._placeholder = config.placeholder ? config.placeholder : Math.DEFAULT_PLACEHOLDER;
     this._data = {};
-    this._element = this.drawView(data);
+    this._element = this.drawView();
 
     this.data = data;
   }
@@ -61,6 +61,8 @@ class Math {
    * @param {KeyboardEvent} e - key up event
    */
   onKeyUp(e) {
+    this._element.contentEditable = `${!this.ifSVGRendered()}`;
+
     if (e.code !== 'Backspace' && e.code !== 'Delete') {
       return;
     }
@@ -73,23 +75,41 @@ class Math {
   }
 
   /**
-   * Check if text content is empty and set empty string to inner html.
-   * We need this because some browsers (e.g. Safari) insert <br> into empty contenteditanle elements
-   *
-   * @param {KeyboardEvent} e - key up event
+   * Change block editing state - rendering SVG or being editable
    */
-  onClick(api) {
-    const blockIndex = this.api.blocks.getCurrentBlockIndex();
-    this.api.caret.setToNextBlock('start', blockIndex);
+  onClick() {
+    if (this.ifSVGRendered()) {
+      this.enableEditing();
+      return;
+    }
+    this.renderSVG();
   }
 
+  /**
+   * check if SVG node rendered
+   * @returns Boolean
+   */
+  ifSVGRendered() {
+    const hasTexContent = this._element.getElementsByTagName('svg');
+    return hasTexContent.length > 0;
+  }
+
+  /**
+   * switch the block to editable mode
+   */
+  enableEditing() {
+    const textNode = document.createElement('div');
+    textNode.contentEditable = true;
+    textNode.innerHTML = this.data.text;
+    this._element.innerHTML = textNode.outerHTML;
+  }
 
   /**
    * Create Tool's view
    * @return {HTMLElement}
    * @private
    */
-  drawView(data) {
+  drawView() {
     let div = document.createElement('DIV');
 
     div.classList.add(this._CSS.wrapper, this._CSS.block);
@@ -106,13 +126,25 @@ class Math {
    * @public
    */
   render() {
-    const mathNode = document.createElement('img');
-    this.getTexSyntax(mathNode);
-    this.textToSVG(mathNode);
-    this._element.onclick = () => this.onClick(this.api);
+    this.renderSVG();
+    this._element.addEventListener('dblclick', () => this.onClick());
     return this._element;
   }
 
+  /**
+   * Return Tool's view
+   * @returns {HTMLDivElement}
+   */
+  renderSVG() {
+    this.data.text = this._element.innerText || this.data.text;
+    this.mathNode = this.mathNode || document.createElement('img');
+    this.getTexSyntax(this.mathNode);
+    this.textToSVG(this.mathNode);
+  }
+
+  /**
+   * parsing the current text to Tex syntax if it has not been transformed
+   */
   getTexSyntax(mathNode) {
     if (!window.math) {
       return console.error('not initiated mathjs');
@@ -124,12 +156,17 @@ class Math {
     }
   }
 
+  /**
+   * parsing the current text to Tex syntax if it has not been transformed
+   */
   textToSVG(mathNode) {
     if (!window.MathJax) {
       return console.error('not initiated mathJax');
     }
     const options = window.MathJax.getMetricsFor(mathNode, true);
-    this._element = window.MathJax.tex2svg(mathNode.innerText, options);
+    const texNode = window.MathJax.tex2svg(mathNode.innerText, options);
+    const svgNode = texNode.getElementsByTagName('svg')[0];
+    this._element.innerHTML = svgNode ? svgNode.outerHTML : this._element.innerHTML;
   }
 
   /**
