@@ -2,7 +2,7 @@
   "name": "@flaming-cl/math",
   "version": "1.0.0",
   "description": "Math Block for Editor.js (allow Tex syntax)",
-  "main": "'./src/index.js'",
+  "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development --watch"

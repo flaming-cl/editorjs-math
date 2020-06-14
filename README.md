@@ -3,7 +3,8 @@
 # Math Tool for Editor.js
 
 Transform Tex syntax/plain text to pretty math equations  
-Based on mathJax and mathjs
+Based on mathJax and mathjs  
+
 ![image](https://user-images.githubusercontent.com/51183663/84605226-486fbd80-aece-11ea-9bc0-38c90cd8bc05.png)
 
 ## Usage
