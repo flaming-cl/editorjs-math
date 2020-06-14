@@ -1,7 +1,7 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
 # Math Tool for Editor.js
-
+This is a plugin for Editor.js. To use this package, you need to install [editorjs](https://www.npmjs.com/package/@editorjs/editorjs) first
 Transform Tex syntax/plain text to pretty math equations  
 Based on mathJax and mathjs  
 

@@ -1,5 +1,5 @@
 {
-  "name": "@flaming-cl/math",
+  "name": "editorjs-math",
   "version": "1.0.0",
   "description": "Math Block for Editor.js (allow Tex syntax)",
   "main": "./dist/bundle.js",
