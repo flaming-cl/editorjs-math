@@ -5,7 +5,9 @@ Demo: https://flaming-cl.github.io/editorPlugin
 
 This is a plugin for Editor.js. To use this package, you need to install [editorjs](https://www.npmjs.com/package/@editorjs/editorjs) first  
 
-Transform laTex text to pretty math equations (here are the supported functions: https://katex.org/docs/supported.html)    
+Transform laTex text to pretty math equations
+
+Here are the supported functions: https://katex.org/docs/supported.html
 
 ![image](https://user-images.githubusercontent.com/51183663/86523997-4c787500-bea7-11ea-8f96-36b96d6ff96d.png)
 
