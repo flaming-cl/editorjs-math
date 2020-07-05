@@ -1,10 +1,9 @@
 /**
  * Build styles
  */
-require('./index.css').toString();
-const load = require('./loadScript');
-load('./tex-svg.js', 'mathJS');
-load('./math.min.js', 'mathJax');
+const katex = require("katex");
+require('./index.css');
+require("katex/dist/katex.css");
 
 /**
  * Math Block for the Editor.js.
@@ -51,7 +50,16 @@ class Math {
     this._data = {};
     this._element = this.drawView();
 
+    this.config = {
+      fleqn: true,
+      output: 'html',
+      delimiter: '$$',
+      throwOnError: true,
+      displayMode: true,
+    };
+
     this.data = data;
+
   }
 
   /**
@@ -61,13 +69,13 @@ class Math {
    * @param {KeyboardEvent} e - key up event
    */
   onKeyUp(e) {
-    this._element.contentEditable = `${!this.ifSVGRendered()}`;
+    const { textContent } = this._element;
+
+    this.renderKatex();
 
     if (e.code !== 'Backspace' && e.code !== 'Delete') {
       return;
     }
-
-    const {textContent} = this._element;
 
     if (textContent === '') {
       this._element.innerHTML = '';
@@ -75,33 +83,29 @@ class Math {
   }
 
   /**
-   * Change block editing state - rendering SVG or being editable
+   * Change block editing state - rendering Katex or being editable
    */
-  onClick() {
-    if (this.ifSVGRendered()) {
-      this.enableEditing();
-      return;
-    }
-    this.renderSVG();
-  }
+  onClick(e) {
+    if (!this.textNode || !this.katexNode || e.target === this.textNode) return;
 
-  /**
-   * check if SVG node rendered
-   * @returns Boolean
-   */
-  ifSVGRendered() {
-    const hasTexContent = this._element.getElementsByTagName('svg');
-    return hasTexContent.length > 0;
+    this.textNode.hidden = !(this.textNode.hidden);
+
+    const inputError = this.katexNode.innerText.indexOf('ParseError') > -1;
+    if (this.textNode.hidden == true && inputError) {
+      katex.render(this.textBeforeError, this.katexNode, this.config);
+    }
   }
 
   /**
    * switch the block to editable mode
    */
   enableEditing() {
-    const textNode = document.createElement('div');
-    textNode.contentEditable = true;
-    textNode.innerHTML = this.data.text;
-    this._element.innerHTML = textNode.outerHTML;
+      this.textNode = document.createElement('input');
+      this.textNode.contentEditable = true;
+      this.textNode.value = this.data.text;
+      this.textNode.hidden = true;
+      this.textNode.className = 'text-node';
+      this._element.appendChild(this.textNode);
   }
 
   /**
@@ -110,11 +114,15 @@ class Math {
    * @private
    */
   drawView() {
-    let div = document.createElement('DIV');
+    const div = document.createElement('DIV');
 
     div.classList.add(this._CSS.wrapper, this._CSS.block);
     div.contentEditable = true;
     div.dataset.placeholder = this._placeholder;
+    this.katexNode = document.createElement('div');
+    this.katexNode.id = 'katex-node';
+    this.katexNode.contentEditable = false;
+    div.appendChild(this.katexNode);
 
     div.addEventListener('keyup', this.onKeyUp);
     return div;
@@ -126,8 +134,9 @@ class Math {
    * @public
    */
   render() {
-    this.renderSVG();
-    this._element.addEventListener('dblclick', () => this.onClick());
+    this.renderKatex();
+    this.enableEditing();
+    this._element.addEventListener('click', (e) => this.onClick(e));
     return this._element;
   }
 
@@ -135,38 +144,31 @@ class Math {
    * Return Tool's view
    * @returns {HTMLDivElement}
    */
-  renderSVG() {
-    this.data.text = this._element.innerText || this.data.text;
-    this.mathNode = this.mathNode || document.createElement('img');
-    this.getTexSyntax(this.mathNode);
-    this.textToSVG(this.mathNode);
+  renderKatex() {
+    this.data.text = this.textNode ? this.textNode.value : this.data.text;
+    this.textToKatex();
   }
 
   /**
    * parsing the current text to Tex syntax if it has not been transformed
    */
-  getTexSyntax(mathNode) {
-    if (!window.math) {
-      return console.error('not initiated mathjs');
+  textToKatex() {
+    if (!this.data.text) {
+      this.data.text = 'equation:';
     }
+
+    if (!this.katexNode) return;
+
+    if (this._element.innerText.indexOf('ParseError') < 0) {
+      this.textBeforeError = this._element.innerText;
+    }
+
     try {
-      mathNode.innerHTML = window.math.parse(this.data.text).toTex({parenthesis: 'keep'});
+      katex.render(this.data.text, this.katexNode, this.config);
     } catch (e) {
-      mathNode.innerHTML = this.data.text;
+      const errorMsg = 'Invalid Equation. ' + e.toString();
+      this.katexNode.innerText = errorMsg;
     }
-  }
-
-  /**
-   * parsing the current text to Tex syntax if it has not been transformed
-   */
-  textToSVG(mathNode) {
-    if (!window.MathJax) {
-      return console.error('not initiated mathJax');
-    }
-    const options = window.MathJax.getMetricsFor(mathNode, true);
-    const texNode = window.MathJax.tex2svg(mathNode.innerText, options);
-    const svgNode = texNode.getElementsByTagName('svg')[0];
-    this._element.innerHTML = svgNode ? svgNode.outerHTML : this._element.innerHTML;
   }
 
   /**
@@ -261,7 +263,7 @@ class Math {
   set data(data) {
     this._data = data || {};
 
-    this._element.innerHTML = this._data.text || '';
+    this.katexNode.innerHTML = this._data.text || '';
   }
 
   /**

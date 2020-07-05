@@ -32,6 +32,10 @@ module.exports = {
             }
         ]
     },
+    externals: [
+        "katex",
+        /^katex\/.+$/,
+    ],
     output: {
         path: __dirname + '/dist',
         publicPath: '/',

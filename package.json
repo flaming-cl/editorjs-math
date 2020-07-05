@@ -1,6 +1,6 @@
 {
   "name": "editorjs-math",
-  "version": "1.0.0",
+  "version": "1.0.1.1",
   "description": "Math Block for Editor.js (allow Tex syntax)",
   "main": "./dist/bundle.js",
   "scripts": {
@@ -29,5 +29,8 @@
     "css-loader": "^3.5.3",
     "raw-loader": "^4.0.1",
     "style-loader": "^1.2.1"
+  },
+  "dependencies": {
+    "katex": "^0.11.1"
   }
 }

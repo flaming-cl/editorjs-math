@@ -2,23 +2,63 @@
     color: #000;
     line-height: 1.6em;
     outline: none;
+    cursor: pointer;
+}
+
+.text-node {
+    border: 1px solid pink;
+    text-align: left;
+    cursor: text;
+    width: 100%;
+    outline: none;
+    padding: 6px;
+}
+
+.katex-display > .katex {
+    max-width: 100%;
+}
+
+.katex-display > .katex > .katex-html {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.popup {
+    z-index: -99;
+    margin: auto;
+    display: flex;
+    height: 10px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(203,76,76,0.82);
+    background: transparent;
+    border-radius: 3px;
+    transform: translateY(-100%);
+    transition: .3s transform cubic-bezier(.645, .045, .355, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    pointer-events: all;
 }
 
 .ce-Math[data-placeholder]:empty::before{
-    content: attr(data-placeholder);
-    color: #707684;
-    font-weight: normal;
-    opacity: 0;
+  content: attr(data-placeholder);
+  color: #707684;
+  font-weight: normal;
+  opacity: 0;
 }
 
 /** Show placeholder at the first paragraph if Editor is empty */
 .codex-editor--empty .ce-block:first-child .ce-Math[data-placeholder]:empty::before {
-    opacity: 1;
+  opacity: 1;
 }
 
 .codex-editor--toolbox-opened .ce-block:first-child .ce-Math[data-placeholder]:empty::before,
 .codex-editor--empty .ce-block:first-child .ce-Math[data-placeholder]:empty:focus::before {
-    opacity: 0;
+  opacity: 0;
 }
 
 .ce-Math p:first-of-type{
