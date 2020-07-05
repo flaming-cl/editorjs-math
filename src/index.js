@@ -285,7 +285,7 @@ class Math {
   static get toolbox() {
     return {
       icon: require('./math-icon.svg').default,
-      title: 'Text'
+      title: 'Math'
     };
   }
 }
