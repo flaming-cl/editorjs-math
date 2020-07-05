@@ -1,13 +1,14 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
 # Math Tool for Editor.js
-STILL UNDER DEVELOPMENT
+Demo: https://flaming-cl.github.io/editorPlugin  
+
 This is a plugin for Editor.js. To use this package, you need to install [editorjs](https://www.npmjs.com/package/@editorjs/editorjs) first  
 
-Transform Tex syntax/plain text to pretty math equations  
-Based on mathJax and mathjs  
+Transform laTex text to pretty math equations   
+Based on katex  
 
-![image](https://user-images.githubusercontent.com/51183663/84605226-486fbd80-aece-11ea-9bc0-38c90cd8bc05.png)
+![image](https://user-images.githubusercontent.com/51183663/86523997-4c787500-bea7-11ea-8f96-36b96d6ff96d.png)
 
 ## Usage
 
@@ -40,11 +41,10 @@ This Tool has no config params
 
 
 ```json
-Text can be plain text or Tex syntax($ can be omitted)
-{
-    "type" : "math",
-    "data" : {
-        "text" : "sqrt(9 / 3) - cos(pi / 4)^2",
+  {
+        "type" : "math",
+        "data" : {
+            "text" : "\\{1,2,3,\\ldots ,n\\}",
+        }
     }
-}
 ```

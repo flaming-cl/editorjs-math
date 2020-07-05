@@ -59,7 +59,6 @@ class Math {
     };
 
     this.data = data;
-
   }
 
   /**
