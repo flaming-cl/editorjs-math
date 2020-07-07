@@ -99,12 +99,16 @@ class Math {
    * switch the block to editable mode
    */
   enableEditing() {
-      this.textNode = document.createElement('input');
-      this.textNode.contentEditable = true;
-      this.textNode.value = this.data.text;
-      this.textNode.hidden = true;
-      this.textNode.className = 'text-node';
-      this._element.appendChild(this.textNode);
+    if (this.textNode) {
+      return this.textNode.hidden = false;
+    }
+
+    this.textNode = document.createElement('input');
+    this.textNode.contentEditable = true;
+    this.textNode.value = this.data.text;
+    this.textNode.hidden = true;
+    this.textNode.className = 'text-node';
+    this._element.appendChild(this.textNode);
   }
 
   /**
