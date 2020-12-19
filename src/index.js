@@ -32,13 +32,15 @@ class Math {
   /**
    * Render plugin`s main Element and fill it with saved data
    *
-   * @param {{data: MathData, config: object, api: object}}
+   * @param {{data: MathData, config: object, api: object, readOnly: Boolean}}
    *   data — previously saved data
    *   config - user config for Tool
    *   api - Editor.js API
+   *   readOnly - read-only mode flag
    */
-  constructor({data, config, api}) {
+  constructor({ data, config, api, readOnly }) {
     this.api = api;
+    this.readOnly = readOnly;
 
     this._CSS = {
       block: this.api.styles.block,
@@ -63,7 +65,7 @@ class Math {
 
   /**
    * Check if text content is empty and set empty string to inner html.
-   * We need this because some browsers (e.g. Safari) insert <br> into empty contenteditanle elements
+   * We need this because some browsers (e.g. Safari) insert <br> into empty contentEditable elements
    *
    * @param {KeyboardEvent} e - key up event
    */
@@ -99,16 +101,18 @@ class Math {
    * switch the block to editable mode
    */
   enableEditing() {
-    if (this.textNode) {
-      return this.textNode.hidden = false;
-    }
+    if (!this.readOnly) {
+      if (this.textNode) {
+        return this.textNode.hidden = false;
+      }
 
-    this.textNode = document.createElement('input');
-    this.textNode.contentEditable = true;
-    this.textNode.value = this.data.text;
-    this.textNode.hidden = true;
-    this.textNode.className = 'text-node';
-    this._element.appendChild(this.textNode);
+      this.textNode = document.createElement('input');
+      this.textNode.contentEditable = true;
+      this.textNode.value = this.data.text;
+      this.textNode.hidden = true;
+      this.textNode.className = 'text-node';
+      this._element.appendChild(this.textNode);
+    }
   }
 
   /**
@@ -120,11 +124,11 @@ class Math {
     const div = document.createElement('DIV');
 
     div.classList.add(this._CSS.wrapper, this._CSS.block);
-    div.contentEditable = true;
+    div.contentEditable = !this.readOnly;
     div.dataset.placeholder = this._placeholder;
     this.katexNode = document.createElement('div');
     this.katexNode.id = 'katex-node';
-    this.katexNode.contentEditable = false;
+    this.katexNode.contentEditable = !this.readOnly;
     div.appendChild(this.katexNode);
 
     div.addEventListener('keyup', this.onKeyUp);
@@ -277,7 +281,7 @@ class Math {
    */
   static get pasteConfig() {
     return {
-      tags: [ 'P' ]
+      tags: ['P']
     };
   }
 
@@ -291,6 +295,15 @@ class Math {
       icon: require('./math-icon.svg').default,
       title: 'Math'
     };
+  }
+
+  /**
+   * Notify core that read-only mode is supported
+   *
+   * @returns {boolean}
+   */
+  static get isReadOnlySupported() {
+    return true;
   }
 }
 
