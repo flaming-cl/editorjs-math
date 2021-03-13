@@ -18,7 +18,7 @@ require("katex/dist/katex.css");
  * @description Tool's input and output data format
  * @property {String} text — Math's content. Can include HTML tags: <a><b><i>
  */
-class Math {
+class MathTex {
   /**
    * Default placeholder for Math Tool
    *
@@ -30,6 +30,15 @@ class Math {
   }
 
   /**
+   * Notify core that read-only mode is supported
+   *
+   * @returns {boolean}
+   */
+  static get isReadOnlySupported() {
+    return true;
+  }
+
+  /**
    * Render plugin`s main Element and fill it with saved data
    *
    * @param {{data: MathData, config: object, api: object}}
@@ -37,16 +46,18 @@ class Math {
    *   config - user config for Tool
    *   api - Editor.js API
    */
-  constructor({data, config, api}) {
+  constructor({data, config, api, readOnly}) {
     this.api = api;
+    this.readOnly = readOnly;
 
     this._CSS = {
       block: this.api.styles.block,
-      wrapper: 'ce-Math'
+      wrapper: 'ce-Math',
+      showClick: 'show-click',
     };
     this.onKeyUp = this.onKeyUp.bind(this);
 
-    this._placeholder = config.placeholder ? config.placeholder : Math.DEFAULT_PLACEHOLDER;
+    this._placeholder = config.placeholder ? config.placeholder : MathTex.DEFAULT_PLACEHOLDER;
     this._data = {};
     this._element = this.drawView();
 
@@ -138,7 +149,10 @@ class Math {
    */
   render() {
     this.renderKatex();
-    this.enableEditing();
+    if (!this.readOnly) {
+      this.enableEditing();
+      this._element.classList.add(this._CSS.showClick);
+    }
     this._element.addEventListener('click', (e) => this.onClick(e));
     return this._element;
   }
@@ -289,9 +303,9 @@ class Math {
   static get toolbox() {
     return {
       icon: require('./math-icon.svg').default,
-      title: 'Math'
+      title: 'MathTex'
     };
   }
 }
 
-module.exports = Math;
+module.exports = MathTex;

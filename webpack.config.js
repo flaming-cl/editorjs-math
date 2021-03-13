@@ -23,6 +23,13 @@ module.exports = {
                 ]
             },
             {
+                test: /\.(ttf|eot|woff|woff2)$/,
+                loader: 'file-loader',
+                options: {
+                    name: 'fonts/[name].[ext]',
+                },
+            },
+            {
                 test: /\.(svg)$/,
                 use: [
                     {
@@ -40,7 +47,7 @@ module.exports = {
         path: __dirname + '/dist',
         publicPath: '/',
         filename: 'bundle.js',
-        library: 'Math',
+        library: 'MathTex',
         libraryTarget: 'umd'
     }
 };

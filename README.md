@@ -20,8 +20,8 @@ var editor = EditorJS({
   
   tools: {
     ...
-    Math: {
-      class: Math,
+    math: {
+      class: MathTex,
     },
   }
   
