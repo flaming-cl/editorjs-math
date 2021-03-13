@@ -9,6 +9,23 @@ Demo: https://flaming-cl.github.io/editorPlugin
 This is a plugin for Editor.js. To use this package, you need to install [editorjs](https://www.npmjs.com/package/@editorjs/editorjs) first   
 Here are the supported functions: https://katex.org/docs/supported.html  
 
+### Install via NPM
+
+Get the package
+
+```shell
+npm i --save-dev editorjs-math
+```
+
+Include module at your application
+
+```javascript
+const mathTex = require('editorjs-math');
+// or import MathTex from 'editorjs-math';
+```
+
+### Load from CDN
+<script src="https://cdn.jsdelivr.net/npm/editorjs-math@1.0.2/dist/bundle.js"></script>
 
 ## Usage
 
@@ -21,7 +38,7 @@ var editor = EditorJS({
   tools: {
     ...
     math: {
-      class: MathTex,
+      class: MathTex, // for CDN: window.MathTex
     },
   }
   

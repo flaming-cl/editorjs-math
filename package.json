@@ -1,6 +1,6 @@
 {
   "name": "editorjs-math",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Math Block for Editor.js",
   "main": "./dist/bundle.js",
   "scripts": {
