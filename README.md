@@ -25,7 +25,9 @@ const mathTex = require('editorjs-math');
 ```
 
 ### Load from CDN
+```javascript
 <script src="https://cdn.jsdelivr.net/npm/editorjs-math@1.0.2/dist/bundle.js"></script>
+```
 
 ## Usage
 
