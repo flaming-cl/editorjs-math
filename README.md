@@ -17,18 +17,16 @@ Get the package
 npm i --save-dev editorjs-math
 ```
 
-Include module at your application
+### Load from CDN
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/editorjs-math@1.0.2/dist/bundle.js"></script>
+```
+### Include the module in your application
 
 ```javascript
 const mathTex = require('editorjs-math');
 // or import MathTex from 'editorjs-math';
 ```
-
-### Load from CDN
-```javascript
-<script src="https://cdn.jsdelivr.net/npm/editorjs-math@1.0.2/dist/bundle.js"></script>
-```
-
 ## Usage
 
 Add a new Tool to the `tools` property of the Editor.js initial config.
